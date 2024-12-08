@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type User = {
@@ -17,6 +18,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User>(null);
+    const router = useRouter();
+    // const [anonAadhaar] = useAnonAadhaar();
+    // const [, latestProof] = useProver();
+
+    // useEffect(() => {
+    //   if (anonAadhaar.status === "logged-in" && !user) {
+    //     console.log(anonAadhaar.status);
+    //     setUser({
+    //         username: latestProof
+    //     })
+    //   }
+    // }, [anonAadhaar]);
+
+    // const switchAadhaar = () => {
+    //   setUseTestAadhaar(!useTestAadhaar);
+    // };
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -32,8 +49,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     const logout = () => {
-        setUser(null);
-        localStorage.removeItem("user");
+        localStorage.removeItem("anonAadhaar");
+        window.location.reload();
+        router.replace("/");
     };
 
     return (

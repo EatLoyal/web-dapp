@@ -1,22 +1,31 @@
 "use client";
 
-import { useAuth } from "@/contexts/auth-context";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useAnonAadhaar } from "@anon-aadhaar/react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
-    const { user } = useAuth();
     const router = useRouter();
+    const path = usePathname();
+    const [anonAadhaar] = useAnonAadhaar();
+    const isLoggedIn = useMemo(
+        () => anonAadhaar.status === "logged-in",
+        [anonAadhaar, path]
+    );
 
     useEffect(() => {
-        if (!user) {
+        if (isLoggedIn && path === "/") {
+            console.log("ever going into this");
+            router.push("/dashboard");
+        } else if (!isLoggedIn && path !== "/") {
+            console.log("ever going into this too");
             router.push("/");
         }
-    }, [user, router]);
+    }, [isLoggedIn, router, path]);
 
-    if (!user) {
-        return null;
+    if (isLoggedIn) {
+        return <>{children}</>;
     }
 
-    return <>{children}</>;
+    return null;
 }

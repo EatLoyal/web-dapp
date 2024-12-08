@@ -16,8 +16,9 @@ import {
 import { useAuth } from "@/contexts/auth-context";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const fetchRestaurants = async (): Promise<IRestaurantApi[]> => {
     const { data } = await axios.get("/api/restaurants");
@@ -31,6 +32,18 @@ export function RestaurantSearch() {
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const { user, logout } = useAuth();
     const router = useRouter();
+    const [walletAddress, setAddress] = useState("");
+
+    useEffect(() => {
+        if (!!typeof window) {
+            (async () => {
+                const provider = new ethers.BrowserProvider(window?.ethereum);
+                const accounts = await provider.send("eth_requestAccounts", []);
+                console.log("accounts", accounts);
+                setAddress(accounts[0]);
+            })();
+        }
+    }, []);
 
     const {
         data: restaurants,
@@ -68,8 +81,7 @@ export function RestaurantSearch() {
                         Welcome, {user?.username}
                     </h2>
                     <p className="text-sm text-gray-500">
-                        Wallet status:{" "}
-                        {user?.walletConnected ? "Connected" : "Not connected"}
+                        Wallet Address: {walletAddress}
                     </p>
                 </div>
                 <Button onClick={handleLogout}>Logout</Button>
@@ -105,7 +117,7 @@ export function RestaurantSearch() {
                                         handleRestaurantSelect(restaurant)
                                     }
                                 >
-                                    Select
+                                    Select Pay
                                 </Button>
                             </TableCell>
                         </TableRow>

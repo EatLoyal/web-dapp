@@ -1,11 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useAuth } from "@/contexts/auth-context";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface LoginStepperProps {
@@ -14,33 +8,33 @@ interface LoginStepperProps {
 
 export function LoginStepper({ onClose }: LoginStepperProps) {
     const [step, setStep] = useState(1);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const { toast } = useToast();
-    const { login } = useAuth();
-    const router = useRouter();
+    // const [username, setUsername] = useState("");
+    // const [password, setPassword] = useState("");
+    // const { toast } = useToast();
+    // const { login } = useAuth();
+    // const router = useRouter();
 
-    const handleNextStep = () => {
-        if (step === 1 && username && password) {
-            toast({
-                title: "Step 1 Complete",
-                description: "Username and password validated successfully.",
-            });
-            setStep(2);
-        }
-    };
+    // const handleNextStep = () => {
+    //     if (step === 1 && username && password) {
+    //         toast({
+    //             title: "Step 1 Complete",
+    //             description: "Username and password validated successfully.",
+    //         });
+    //         setStep(2);
+    //     }
+    // };
 
-    const handleConnectWallet = () => {
-        // In a real application, you would implement the wallet connection logic here
-        console.log("Connecting Okto Wallet...");
-        toast({
-            title: "Wallet Connected",
-            description: "Okto Wallet connected successfully.",
-        });
-        login(username, true);
-        onClose();
-        router.push("/dashboard");
-    };
+    // const handleConnectWallet = () => {
+    //     // In a real application, you would implement the wallet connection logic here
+    //     console.log("Connecting Okto Wallet...");
+    //     toast({
+    //         title: "Wallet Connected",
+    //         description: "Okto Wallet connected successfully.",
+    //     });
+    //     login(username, true);
+    //     onClose();
+    //     router.push("/dashboard");
+    // };
 
     return (
         <div className="space-y-4">
@@ -57,7 +51,7 @@ export function LoginStepper({ onClose }: LoginStepperProps) {
                 />
             </div>
 
-            {step === 1 && (
+            {/* {step === 1 && (
                 <div className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="username">Username</Label>
@@ -98,7 +92,7 @@ export function LoginStepper({ onClose }: LoginStepperProps) {
                         Connect Okto Wallet
                     </Button>
                 </div>
-            )}
+            )} */}
         </div>
     );
 }
