@@ -185,7 +185,7 @@ export function PaymentModal({
                     </div>
                 </div>
                 <DialogFooter>
-                    <RazorpayButton
+                    {/* <RazorpayButton
                         options={{
                             key: "rzp_test_kMWLFmUOfmcbuw",
                             amount: `${parseFloat(amount) * 100}`,
@@ -211,7 +211,8 @@ export function PaymentModal({
                         }}
                         label={`Pay ${totalAmount.toFixed(2)}`}
                         disabled={!orderId}
-                    />
+                    /> */}
+                    <Button onClick={handlePaymentSuccess}>Mint </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
